@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">MyWatchlistApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="search">Search</string>
+    <string name="title">Title</string>
+    <string name="rating">Your rating:</string>
+    <string name="comment">[Optional] What can you say about this show?</string>
+    <string name="recommend">Would you recommend this to others?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="sample_rating">4.5</string>
+    <string name="sample_timestamp">03/22/2023</string>
+    <string name="status">Status</string>
+    <string name="delete_show">Delete show</string>
+    <string name="delete_question">Are you sure you want to delete this show?</string>
+    <string name="please_fill">Please fill in the required fields.</string>
+</resources>
