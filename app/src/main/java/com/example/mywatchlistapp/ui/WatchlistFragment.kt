@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -41,7 +42,10 @@ class WatchlistFragment : Fragment() {
 
         // TODO: Implement search functionality
         // Search
-        binding.search.setOnClickListener { }
+        binding.search.setOnClickListener {
+            val title = binding.title.text
+            Toast.makeText(requireContext(), "You've searched '$title'", Toast.LENGTH_SHORT).show()
+        }
 
         // Show list
         val adapter = ShowListAdapter { selectedShow ->
