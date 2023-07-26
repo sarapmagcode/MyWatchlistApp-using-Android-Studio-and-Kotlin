@@ -18,7 +18,7 @@ class ShowListAdapter(private val onItemClicked: (Show) -> Unit) :
             binding.apply {
                 title.text = show.title
                 rating.text = show.rating.toString()
-                timestamp.text = show.timestamp
+                timestamp.text = show.timestamp.substring(0, show.timestamp.length - 3)
             }
         }
     }
