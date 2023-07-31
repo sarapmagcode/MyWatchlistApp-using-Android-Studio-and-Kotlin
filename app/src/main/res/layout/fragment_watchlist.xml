@@ -4,9 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:paddingStart="15dp"
     android:paddingEnd="15dp"
     tools:context=".ui.WatchlistFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middle_line"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/title"
@@ -15,17 +24,27 @@
         android:layout_marginTop="15dp"
         android:inputType="text"
         android:maxLines="1"
-        app:layout_constraintEnd_toStartOf="@id/search"
+        app:layout_constraintEnd_toStartOf="@id/middle_line"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/search"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/search"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/clear"
+        app:layout_constraintStart_toEndOf="@id/middle_line"
         app:layout_constraintTop_toTopOf="@id/title" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/clear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/clear"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/search"
+        app:layout_constraintTop_toTopOf="@id/search" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/watchlist"

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -13,6 +12,7 @@ import com.example.mywatchlistapp.ShowApplication
 import com.example.mywatchlistapp.adapters.ShowListAdapter
 import com.example.mywatchlistapp.databinding.FragmentWatchlistBinding
 import java.text.SimpleDateFormat
+
 
 class WatchlistFragment : Fragment() {
 
@@ -40,12 +40,10 @@ class WatchlistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: Implement search functionality
-        // Search
-        binding.search.setOnClickListener {
-            val title = binding.title.text
-            Toast.makeText(requireContext(), "You've searched '$title'", Toast.LENGTH_SHORT).show()
-        }
+        // To remove focus in EditText when fragment starts
+        // set android:focusable="true"
+        // set android:focusableInTouchMode="true"
+        // (in parent layout)
 
         // Show list
         val adapter = ShowListAdapter { selectedShow ->
@@ -53,15 +51,55 @@ class WatchlistFragment : Fragment() {
                 WatchlistFragmentDirections.actionWatchlistFragmentToAddFragment(selectedShow.id)
             this.findNavController().navigate(action)
         }
+
         binding.watchlist.adapter = adapter
+
+        val pattern = "yyyy/MM/dd HH:mm:ss"
+
+        // Search
+        binding.search.setOnClickListener {
+            val searchFor = binding.title.text.toString()
+            viewModel.allShows.observe(viewLifecycleOwner) { shows ->
+                shows.let {
+                    adapter.submitList(
+                        it.filter { show ->
+                            show.title.contains(
+                                searchFor,
+                                true
+                            )
+                        }
+                            .sortedByDescending { show -> SimpleDateFormat(pattern).parse(show.timestamp) }
+                    ) {
+                        binding.watchlist.scrollToPosition(0)
+                    }
+                }
+            }
+        }
+
+        // Clear
+        binding.clear.setOnClickListener {
+            binding.title.setText("")
+            viewModel.allShows.observe(viewLifecycleOwner) { shows ->
+                shows.let {
+                    adapter.submitList(it.sortedByDescending { show ->
+                        SimpleDateFormat(pattern).parse(
+                            show.timestamp
+                        )
+                    }) {
+                        binding.watchlist.scrollToPosition(0)
+                    }
+                }
+            }
+        }
+
         viewModel.allShows.observe(viewLifecycleOwner) { shows ->
             shows.let {
-                val pattern = "yyyy/MM/dd HH:mm:ss"
-                adapter.submitList(it.sortedByDescending { show ->
-                    SimpleDateFormat(pattern).parse(
-                        show.timestamp
-                    )
-                }) {
+                adapter.submitList(
+                    it.sortedByDescending { show ->
+                        SimpleDateFormat(pattern).parse(
+                            show.timestamp
+                        )
+                    }) {
                     binding.watchlist.scrollToPosition(0)
                 }
             }
@@ -79,6 +117,4 @@ class WatchlistFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    /** Other Methods **/
 }
